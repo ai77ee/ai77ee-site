@@ -1,0 +1,190 @@
+---
+import Card from '../components/Card.astro';
+import { LastFm } from '@imikailoby/lastfm-ts';
+import ImageGlow from './ImageGlow.astro';
+import RelativeTime from '@yaireo/relative-time';
+
+const lastFm = new LastFm(import.meta.env.LASTFM_API_KEY);
+
+const relativeTime = new RelativeTime();
+
+// Fetch the initial track for server-side rendering
+const fetchRecentTrack = async () => {
+  const response = await lastFm.user.getRecentTracks({
+    user: 'aiimeee',
+    limit: '1',
+    page: '1',
+  });
+
+  const { recenttracks } = response;
+  return recenttracks['track'][0];
+};
+
+const recentTrack = await fetchRecentTrack();
+
+// Server-side fallback data
+const serverData = {
+  song: recentTrack?.name ?? '',
+  artist: recentTrack?.artist?.['#text'] ?? '',
+  image: recentTrack?.image[2]['#text'] ?? '',
+  timestamp: recentTrack?.date?.['uts'] ?? 'Unknown',
+  listening: recentTrack?.['@attr']?.['nowplaying'] ?? false,
+};
+---
+
+<Card>
+  <h3 class='no-mt'>What's playing?</h3>
+  <div class='listening-data'>
+    <div class='cover-placeholder'>
+      {
+        serverData.image && (
+          <ImageGlow
+            data-song-image
+            width={96}
+            height={96}
+            src={serverData.image}
+            alt={`${serverData.song} by ${serverData.artist}`}
+          />
+        )
+      }
+    </div>
+    <div class='song-info'>
+      <p id='song-title' class='song-title'>{serverData.song}</p>
+      <p id='song-artist' class='song-artists'>{serverData.artist}</p>
+    </div>
+    <div class='listening-info'>
+      <div
+        class='indicator'
+        class:list={serverData.listening ? 'listening' : ''}
+      >
+      </div>
+
+      <div class='listening-status'>
+        {
+          serverData.listening
+            ? 'Currently Listening'
+            : `Listened ${relativeTime.from(new Date(Number(serverData.timestamp) * 1000))}`
+        }
+      </div>
+    </div>
+  </div>
+</Card>
+
+<script>
+  import RelativeTime from '@yaireo/relative-time';
+  const relativeTime = new RelativeTime();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setInterval(async () => {
+      // Get DOM Elements
+      const songImage =
+        document.querySelector<HTMLImageElement>('[data-song-image]');
+      const songTitle = document.querySelector<HTMLSpanElement>('.song-title');
+      const songArtists =
+        document.querySelector<HTMLSpanElement>('.song-artists');
+      const listeningStatus =
+        document.querySelector<HTMLDivElement>('.listening-status');
+      const indicator = document.querySelector<HTMLDivElement>('.indicator');
+      // Making sure all elements are not null or missing
+      if (
+        !songTitle ||
+        !songArtists ||
+        !listeningStatus ||
+        !songImage ||
+        !indicator
+      ) {
+        console.warn('Some elements are still missing...');
+        return;
+      }
+      // Making an API call
+      try {
+        const response = await fetch('/api/status');
+        const data = await response.json();
+
+        // Updating the DOM
+        if (songImage) {
+          songImage.src = data.image;
+          songImage.alt = `${data.song} by ${data.artist}`;
+        }
+        songTitle.textContent = data.song || 'Unknown';
+        songArtists.textContent = data.artist || 'Unknown';
+
+        if (data.listening) {
+          indicator.classList.add('listening');
+        } else {
+          indicator.classList.remove('listening');
+        }
+
+        listeningStatus.textContent = data.listening
+          ? 'Currently listening'
+          : `Listened ${relativeTime.from(new Date(Number(data.timestamp) * 1000))}`;
+      } catch (error) {
+        console.error('Failed to fetch now-playing data:', error);
+      }
+    }, 10000);
+  });
+</script>
+
+<style is:global>
+  .listening-data {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cover-placeholder {
+    width: 96px;
+    height: 96px;
+    background-color: #202020;
+    box-shadow: 0 0 25px #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    font-family: 'Geist Mono', monospace;
+    font-weight: bold;
+  }
+
+  .song-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .song-info p {
+    margin: 0;
+  }
+
+  .song-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .listening-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #c7c7c7;
+    font-size: 0.925rem;
+  }
+
+  .indicator {
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    background-color: #c7c7c7;
+    position: relative;
+    top: 1px;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #c7c7c7;
+  }
+
+  .indicator.listening {
+    background-color: #36f443;
+    box-shadow: 0 0 12px #36f443;
+  }
+</style>

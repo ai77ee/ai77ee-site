@@ -10,7 +10,7 @@ import { spectreDark } from './src/ec-theme';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://spectre.louisescher.dev',
+  site: 'https://your-project-name.vercel.app',
   output: 'static',
   integrations: [
     expressiveCode({
@@ -19,25 +19,25 @@ export default defineConfig({
     mdx(),
     sitemap(),
     spectre({
-      name: 'Spectre',
+      name: 'ai77ee',
       openGraph: {
         home: {
-          title: 'Spectre',
-          description: 'A minimalistic theme for Astro.'
+          title: 'ai77ee',
+          description: 'ai77ee site talking about tech stuff and more.'
         },
         blog: {
           title: 'Blog',
-          description: 'News and guides for Spectre.'
+          description: 'ai77ee blog.'
         },
         projects: {
           title: 'Projects'
         }
       },
       giscus: {
-        repository: 'louisescher/spectre',
-        repositoryId: 'R_kgDONjm3ig',
+        repository: 'ai77ee/ai77ee',
+        repositoryId: 'R_kgDONwd7Kg',
         category: 'General',
-        categoryId: 'DIC_kwDONjm3is4ClmBF',
+        categoryId: 'DIC_kwDONwd7Ks4CmZDV',
         mapping: 'pathname',
         strict: true,
         reactionsEnabled: true,

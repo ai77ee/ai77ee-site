@@ -1,11 +1,58 @@
 [
-  {
+    {
     "id": 1,
     "icon": {
-      "type": "lucide",
+      "type": "simple-icons",
+      "name": "mastodon"
+    },
+    "text": "Mastodon",
+    "link": "https://tkz.one/@aimee"
+  },
+      {
+    "id": 2,
+    "icon": {
+      "type": "simple-icons",
+      "name": "myanimelist"
+    },
+    "text": "MyAnimeList",
+    "link": "https://myanimelist.net/profile/ai77ee"
+  },
+     {
+    "id": 3,
+    "icon": {
+      "type": "simple-icons",
+      "name": "anilist"
+    },
+    "text": "AniList",
+    "link": "https://anilist.co/user/ai77ee/"
+  },
+  {
+    "id": 4,
+    "icon": {
+      "type": "simple-icons",
+      "name": "pixelfed"
+    },
+    "text": "PixelFed",
+    "link": "https://pixelfed.social/i/web/profile/788808852002712514"
+  },
+   {
+    "id": 4,
+    "icon": {
+      "type": "simple-icons",
+      "name": "pixelfed"
+    },
+    "text": "PixelFed",
+    "link": "https://pixelfed.social/i/web/profile/788808852002712514"
+  },
+ {
+    "id": 5,
+    "icon": {
+      "type": "simple-icons",
       "name": "github"
     },
     "text": "GitHub",
-    "link": "https://github.com/louisescher/spectre"
+    "link": "https://github.com/ai77ee"
   }
+
+
 ]

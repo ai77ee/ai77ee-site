@@ -5,15 +5,24 @@
       "type": "lucide",
       "name": "cake"
     },
-    "text": "1 year old"
+    "text": "30 years old"
+  },
+   {
+    "id": 2,
+    "icon": {
+      "type": "lucide",
+      "name": "person-standing"
+    },
+    "type": "lucide",
+    "text": "She/her"
   },
   {
-    "id": 2,
+    "id": 3,
     "icon": {
       "type": "lucide",
       "name": "earth"
     },
     "type": "lucide",
-    "text": "Made in Germany"
+    "text": "Made in Mexico"
   }
 ]
