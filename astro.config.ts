@@ -34,10 +34,10 @@ export default defineConfig({
         }
       },
       giscus: {
-        repository: 'ai77ee/ai77ee',
-        repositoryId: 'R_kgDONwd7Kg',
+        repository: 'ai77ee/ai77ee-site',
+        repositoryId: 'R_kgDONwflww',
         category: 'General',
-        categoryId: 'DIC_kwDONwd7Ks4CmZDV',
+        categoryId: 'DIC_kwDONwflw84CmZK7',
         mapping: 'pathname',
         strict: true,
         reactionsEnabled: true,
