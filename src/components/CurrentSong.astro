@@ -1,72 +1,36 @@
 ---
-import Card from '../components/Card.astro';
 import { LastFm } from '@imikailoby/lastfm-ts';
 import ImageGlow from './ImageGlow.astro';
 import RelativeTime from '@yaireo/relative-time';
-
+import fallbackImage from '../assets/spinner.svg';
+import Card from './Card.astro';
 const lastFm = new LastFm(import.meta.env.LASTFM_API_KEY);
-
 const relativeTime = new RelativeTime();
-
-// Fetch the initial track for server-side rendering
-const fetchRecentTrack = async () => {
-  const response = await lastFm.user.getRecentTracks({
-    user: 'aiimeee',
-    limit: '1',
-    page: '1',
-  });
-
-  const { recenttracks } = response;
-  return recenttracks['track'][0];
-};
-
-const recentTrack = await fetchRecentTrack();
-
-// Server-side fallback data
-const serverData = {
-  song: recentTrack?.name ?? '',
-  artist: recentTrack?.artist?.['#text'] ?? '',
-  image: recentTrack?.image[2]['#text'] ?? '',
-  timestamp: recentTrack?.date?.['uts'] ?? 'Unknown',
-  listening: recentTrack?.['@attr']?.['nowplaying'] ?? false,
-};
 ---
 
 <Card>
   <h3 class='no-mt'>What's playing?</h3>
-  <div class='listening-data'>
+  <div class='listening-data' hidden>
     <div class='cover-placeholder'>
-      {
-        serverData.image && (
-          <ImageGlow
-            data-song-image
-            width={96}
-            height={96}
-            src={serverData.image}
-            alt={`${serverData.song} by ${serverData.artist}`}
-          />
-        )
-      }
+      <ImageGlow
+        data-song-image
+        width={96}
+        height={96}
+        src={fallbackImage}
+        alt='Album Artwork'
+      />
     </div>
     <div class='song-info'>
-      <p id='song-title' class='song-title'>{serverData.song}</p>
-      <p id='song-artist' class='song-artists'>{serverData.artist}</p>
+      <p id='song-title' class='song-title'>Loading...</p>
+      <p id='song-artist' class='song-artists'>Loading...</p>
     </div>
     <div class='listening-info'>
-      <div
-        class='indicator'
-        class:list={serverData.listening ? 'listening' : ''}
-      >
-      </div>
-
-      <div class='listening-status'>
-        {
-          serverData.listening
-            ? 'Currently listening'
-            : `Listened ${relativeTime.from(new Date(Number(serverData.timestamp) * 1000))}`
-        }
-      </div>
+      <div class='indicator'></div>
+      <div class='listening-status'>Loading...</div>
     </div>
+  </div>
+  <div class='loading-state'>
+    <p>Loading now playing data...</p>
   </div>
 </Card>
 
@@ -75,50 +39,62 @@ const serverData = {
   const relativeTime = new RelativeTime();
 
   const fetchData = async () => {
-    // Get DOM Elements
-    const songImage =
-      document.querySelector<HTMLImageElement>('[data-song-image]');
-    const songTitle = document.querySelector<HTMLSpanElement>('.song-title');
-    const songArtists =
-      document.querySelector<HTMLSpanElement>('.song-artists');
-    const listeningStatus =
-      document.querySelector<HTMLDivElement>('.listening-status');
-    const indicator = document.querySelector<HTMLDivElement>('.indicator');
+    const listeningData = document.querySelector('.listening-data');
+    const loadingState = document.querySelector(
+      '.loading-state'
+    ) as HTMLElement;
 
-    // Making sure all elements are not null or missing
-    if (
-      !songTitle ||
-      !songArtists ||
-      !listeningStatus ||
-      !songImage ||
-      !indicator
-    ) {
-      console.warn('Some elements are still missing...');
+    // Check if elements exist before interacting with them
+    if (!listeningData || !loadingState) {
+      console.warn('Some elements are missing in the DOM.');
       return;
     }
 
-    // Making an API call
     try {
       const response = await fetch(`/api/status?${new Date().getTime()}`);
       const data = await response.json();
-      console.log('API Response:', data);
-      // Updating the DOM
-      songImage.src = data.image;
-      songImage.alt = `${data.song} by ${data.artist}`;
-      songTitle.textContent = data.song || 'Unknown';
-      songArtists.textContent = data.artist || 'Unknown';
 
-      if (data.listening) {
-        indicator.classList.add('listening');
-      } else {
-        indicator.classList.remove('listening');
+      // Update the DOM
+      const songImage =
+        document.querySelector<HTMLImageElement>('[data-song-image]');
+      const songTitle = document.querySelector<HTMLSpanElement>('.song-title');
+      const songArtists =
+        document.querySelector<HTMLSpanElement>('.song-artists');
+      const listeningStatus =
+        document.querySelector<HTMLDivElement>('.listening-status');
+      const indicator = document.querySelector<HTMLDivElement>('.indicator');
+
+      if (
+        songImage &&
+        songTitle &&
+        songArtists &&
+        listeningStatus &&
+        indicator
+      ) {
+        songImage.src = data.image;
+        songImage.alt = `${data.song} by ${data.artist}`;
+        songTitle.textContent = data.song || 'Unknown';
+        songArtists.textContent = data.artist || 'Unknown';
+
+        if (data.listening) {
+          indicator.classList.add('listening');
+        } else {
+          indicator.classList.remove('listening');
+        }
+
+        listeningStatus.textContent = data.listening
+          ? 'Currently listening'
+          : `Listened ${relativeTime.from(new Date(Number(data.timestamp) * 1000))}`;
+
+        // Hide loading state and show listening data
+        loadingState.style.display = 'none';
+        listeningData.removeAttribute('hidden');
       }
-
-      listeningStatus.textContent = data.listening
-        ? 'Currently listening'
-        : `Listened ${relativeTime.from(new Date(Number(data.timestamp) * 1000))}`;
     } catch (error) {
       console.error('Failed to fetch now-playing data:', error);
+      if (loadingState) {
+        loadingState.textContent = 'Failed to load now-playing data.';
+      }
     }
   };
 
@@ -127,13 +103,7 @@ const serverData = {
 
   // Fetch data every 10 seconds
   setInterval(fetchData, 10000);
-
-  // Fetch data immediately after client-side navigation
-  document.addEventListener('astro:after-swap', () => {
-    fetchData();
-  });
 </script>
-
 <style is:global>
   .listening-data {
     display: flex;
