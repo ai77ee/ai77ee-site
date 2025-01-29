@@ -99,9 +99,9 @@ const serverData = {
 
     // Making an API call
     try {
-      const response = await fetch('/api/status');
+      const response = await fetch(`/api/status?${new Date().getTime()}`);
       const data = await response.json();
-
+      console.log('API Response:', data);
       // Updating the DOM
       songImage.src = data.image;
       songImage.alt = `${data.song} by ${data.artist}`;
