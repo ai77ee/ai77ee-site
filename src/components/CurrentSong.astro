@@ -74,55 +74,59 @@ const serverData = {
   import RelativeTime from '@yaireo/relative-time';
   const relativeTime = new RelativeTime();
 
-  document.addEventListener('DOMContentLoaded', () => {
-    setInterval(async () => {
-      // Get DOM Elements
-      const songImage =
-        document.querySelector<HTMLImageElement>('[data-song-image]');
-      const songTitle = document.querySelector<HTMLSpanElement>('.song-title');
-      const songArtists =
-        document.querySelector<HTMLSpanElement>('.song-artists');
-      const listeningStatus =
-        document.querySelector<HTMLDivElement>('.listening-status');
-      const indicator = document.querySelector<HTMLDivElement>('.indicator');
-      // Making sure all elements are not null or missing
-      if (
-        !songTitle ||
-        !songArtists ||
-        !listeningStatus ||
-        !songImage ||
-        !indicator
-      ) {
-        console.warn('Some elements are still missing...');
-        return;
+  const fetchData = async () => {
+    // Get DOM Elements
+    const songImage =
+      document.querySelector<HTMLImageElement>('[data-song-image]');
+    const songTitle = document.querySelector<HTMLSpanElement>('.song-title');
+    const songArtists =
+      document.querySelector<HTMLSpanElement>('.song-artists');
+    const listeningStatus =
+      document.querySelector<HTMLDivElement>('.listening-status');
+    const indicator = document.querySelector<HTMLDivElement>('.indicator');
+
+    // Making sure all elements are not null or missing
+    if (
+      !songTitle ||
+      !songArtists ||
+      !listeningStatus ||
+      !songImage ||
+      !indicator
+    ) {
+      console.warn('Some elements are still missing...');
+      return;
+    }
+
+    // Making an API call
+    try {
+      const response = await fetch('/api/status');
+      const data = await response.json();
+
+      // Updating the DOM
+      songImage.src = data.image;
+      songImage.alt = `${data.song} by ${data.artist}`;
+      songTitle.textContent = data.song || 'Unknown';
+      songArtists.textContent = data.artist || 'Unknown';
+
+      if (data.listening) {
+        indicator.classList.add('listening');
+      } else {
+        indicator.classList.remove('listening');
       }
-      // Making an API call
-      try {
-        const response = await fetch('/api/status');
-        const data = await response.json();
 
-        // Updating the DOM
-        if (songImage) {
-          songImage.src = data.image;
-          songImage.alt = `${data.song} by ${data.artist}`;
-        }
-        songTitle.textContent = data.song || 'Unknown';
-        songArtists.textContent = data.artist || 'Unknown';
+      listeningStatus.textContent = data.listening
+        ? 'Currently listening'
+        : `Listened ${relativeTime.from(new Date(Number(data.timestamp) * 1000))}`;
+    } catch (error) {
+      console.error('Failed to fetch now-playing data:', error);
+    }
+  };
 
-        if (data.listening) {
-          indicator.classList.add('listening');
-        } else {
-          indicator.classList.remove('listening');
-        }
+  // Fetch data immediately on page load
+  fetchData();
 
-        listeningStatus.textContent = data.listening
-          ? 'Currently listening'
-          : `Listened ${relativeTime.from(new Date(Number(data.timestamp) * 1000))}`;
-      } catch (error) {
-        console.error('Failed to fetch now-playing data:', error);
-      }
-    }, 10000);
-  });
+  // Fetch data every 10 seconds
+  setInterval(fetchData, 10000);
 </script>
 
 <style is:global>
