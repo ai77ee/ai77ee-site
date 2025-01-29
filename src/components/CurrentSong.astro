@@ -27,8 +27,8 @@ type Props = NonPlaceholderProps | PlaceholderProps;
 // Fetch the initial track for server-side rendering
 const fetchRecentTrack = async () => {
   try {
-    const baseUrl =
-      import.meta.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:4321';
+    const baseUrl = import.meta.env.NEXT_PUBLIC_VERCEL_URL;
+    console.log(baseUrl);
     const response = await fetch(`${baseUrl}/api/status`);
     console.log('response ', response);
     if (!response.ok) {
