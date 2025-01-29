@@ -62,7 +62,7 @@ const serverData = {
       <div class='listening-status'>
         {
           serverData.listening
-            ? 'Currently Listening'
+            ? 'Currently listening'
             : `Listened ${relativeTime.from(new Date(Number(serverData.timestamp) * 1000))}`
         }
       </div>
@@ -127,6 +127,11 @@ const serverData = {
 
   // Fetch data every 10 seconds
   setInterval(fetchData, 10000);
+
+  // Fetch data immediately after client-side navigation
+  document.addEventListener('astro:after-swap', () => {
+    fetchData();
+  });
 </script>
 
 <style is:global>
