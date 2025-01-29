@@ -10,11 +10,15 @@ const width = props.width;
 const height = props.height;
 ---
 
-<div class="glow-image">
+<div class='glow-image'>
   <Image {...props} />
   <Image
-    width={width ? ((typeof width === 'number' ? width : Number.parseInt(width)) / 4) : undefined} 
-    height={height ? ((typeof height === 'number' ? height : Number.parseInt(height)) / 4) : undefined}
+    width={width
+      ? (typeof width === 'number' ? width : Number.parseInt(width)) / 4
+      : undefined}
+    height={height
+      ? (typeof height === 'number' ? height : Number.parseInt(height)) / 4
+      : undefined}
     {...props}
     class='glow'
     class:list={[props.class]}

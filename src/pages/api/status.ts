@@ -7,8 +7,6 @@ const lastFm = new LastFm(import.meta.env.LASTFM_API_KEY);
 export const prerender = false;
 export async function GET() {
       const now = Date.now();
-console.log('Cached Data:', cachedData);
-console.log('Last Fetch Time:', lastFetchTime);
   // Cache valid for 30 seconds
   if (cachedData && now - lastFetchTime < 30 * 1000) {
     return new Response(JSON.stringify(cachedData), {
