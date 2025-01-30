@@ -4,8 +4,6 @@ import ImageGlow from './ImageGlow.astro';
 import RelativeTime from '@yaireo/relative-time';
 import fallbackImage from '../assets/spinner.svg';
 import Card from './Card.astro';
-const lastFm = new LastFm(import.meta.env.LASTFM_API_KEY);
-const relativeTime = new RelativeTime();
 ---
 
 <Card>
@@ -104,11 +102,12 @@ const relativeTime = new RelativeTime();
     }
   };
 
-  // Fetch data immediately on page load
-  fetchData();
-
   // Fetch data every 10 seconds
   setInterval(fetchData, 10000);
+  // Fetch data immediately after client-side navigation
+  document.addEventListener('astro:after-swap', () => {
+    fetchData();
+  });
 </script>
 <style is:global>
   .listening-data {
