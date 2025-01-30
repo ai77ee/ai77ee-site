@@ -47,7 +47,7 @@ const relativeTime = new RelativeTime();
     try {
       const response = await fetch(`/api/status?${new Date().getTime()}`);
       const data = await response.json();
-
+      console.log('Now playing data:', data);
       // Update the DOM
       const songImage =
         document.querySelector<HTMLImageElement>('[data-song-image]');
