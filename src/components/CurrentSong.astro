@@ -12,7 +12,15 @@ const relativeTime = new RelativeTime();
   <h3 class='no-mt'>What's playing?</h3>
   <div class='listening-data' hidden>
     <div class='cover-placeholder'>
-      <span>?</span>
+      <span class='img-placeholder'>?</span>
+      <ImageGlow
+        hidden
+        data-song-image
+        width={96}
+        height={96}
+        src={fallbackImage}
+        alt='Album Artwork'
+      />
     </div>
     <div class='song-info'>
       <p id='song-title' class='song-title'>Loading...</p>
@@ -47,10 +55,12 @@ const relativeTime = new RelativeTime();
     try {
       const response = await fetch(`/api/status?${new Date().getTime()}`);
       const data = await response.json();
-      console.log('Now playing data:', data);
+
       // Update the DOM
       const songImage =
         document.querySelector<HTMLImageElement>('[data-song-image]');
+      const imgPlaceholder =
+        document.querySelector<HTMLSpanElement>('.img-placeholder');
       const songTitle = document.querySelector<HTMLSpanElement>('.song-title');
       const songArtists =
         document.querySelector<HTMLSpanElement>('.song-artists');
@@ -83,6 +93,8 @@ const relativeTime = new RelativeTime();
         // Hide loading state and show listening data
         loadingState.style.display = 'none';
         listeningData.removeAttribute('hidden');
+        imgPlaceholder!.style.display = 'none';
+        songImage.removeAttribute('hidden');
       }
     } catch (error) {
       console.error('Failed to fetch now-playing data:', error);
