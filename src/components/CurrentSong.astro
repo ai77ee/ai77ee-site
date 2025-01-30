@@ -27,6 +27,16 @@ type Props = NonPlaceholderProps | PlaceholderProps;
 
 // Fetch the initial track for server-side rendering
 const fetchRecentTrack = async () => {
+  // Always return the placeholder initially
+  return {
+    isPlaceholder: true,
+    data: null,
+    listening: null,
+    timestamp: null,
+  };
+
+  // Uncomment the rest of the fetch logic if you want to fetch data on the server
+  /*
   try {
     const baseUrl = import.meta.env.NEXT_PUBLIC_VERCEL_URL;
     const response = await fetch(`${baseUrl}/api/status`);
@@ -55,6 +65,7 @@ const fetchRecentTrack = async () => {
       timestamp: null,
     };
   }
+  */
 };
 
 const props = await fetchRecentTrack();
@@ -135,7 +146,6 @@ const props = await fetchRecentTrack();
     try {
       const response = await fetch(`/api/status?${new Date().getTime()}`);
       const data = await response.json();
-      console.log('api response ', data);
       // Updating the DOM
       songImage.src = data.image;
       songImage.alt = `${data.song} by ${data.artist}`;
@@ -156,12 +166,11 @@ const props = await fetchRecentTrack();
     }
   };
 
+  // Fetch data immediately on page load
+  fetchData();
+
   // Fetch data every 10 seconds
   setInterval(fetchData, 10000);
-  // Fetch data immediately after client-side navigation
-  document.addEventListener('astro:after-swap', () => {
-    fetchData();
-  });
 </script>
 
 <style is:global>
