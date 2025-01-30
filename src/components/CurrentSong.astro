@@ -4,6 +4,7 @@ import ImageGlow from './ImageGlow.astro';
 import RelativeTime from '@yaireo/relative-time';
 
 const relativeTime = new RelativeTime();
+
 interface NonPlaceholderProps {
   isPlaceholder?: false;
   data: {
@@ -28,9 +29,7 @@ type Props = NonPlaceholderProps | PlaceholderProps;
 const fetchRecentTrack = async () => {
   try {
     const baseUrl = import.meta.env.NEXT_PUBLIC_VERCEL_URL;
-    console.log(baseUrl);
     const response = await fetch(`${baseUrl}/api/status`);
-    console.log('response ', response);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
