@@ -156,11 +156,12 @@ const props = await fetchRecentTrack();
     }
   };
 
-  // Fetch data immediately on page load
-  fetchData();
-
   // Fetch data every 10 seconds
   setInterval(fetchData, 10000);
+  // Fetch data immediately after client-side navigation
+  document.addEventListener('astro:after-swap', () => {
+    fetchData();
+  });
 </script>
 
 <style is:global>
