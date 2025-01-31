@@ -107,7 +107,7 @@ const path = Astro.url.pathname;
   searchElement?.addEventListener('input', async (e) => {
     if (e.target.dataset.loaded !== 'true') {
       e.target.dataset.loaded = 'true';
-      window.pagefind = await import('/pagefind/pagefind.js?url');
+      window.pagefind = await import('/pagefind/pagefind.js');
     }
 
     results.innerHTML = '';

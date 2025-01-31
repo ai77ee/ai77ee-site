@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "astro dev",
-     "build": "astro build && pagefind --site dist/client",
+    "build": "astro build && pagefind --site dist/client && cp -r node_modules/pagefind/* dist/client/pagefind",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro"
@@ -14,7 +14,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
     "@astrojs/node": "^9.0.0",
-     "@astrojs/preact": "^4.0.3",
+    "@astrojs/preact": "^4.0.3",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/vercel": "^8.0.4",
     "@iconify-json/lucide": "^1.2.20",
