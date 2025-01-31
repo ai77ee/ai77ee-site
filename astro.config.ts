@@ -7,7 +7,6 @@ import spectre from './package/src';
 import { spectreDark } from './src/ec-theme';
 import vercel from '@astrojs/vercel';
 import preact from '@astrojs/preact';
-import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
