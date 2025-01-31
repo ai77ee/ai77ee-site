@@ -5,15 +5,15 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist/client",
+    "build": "astro build",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postbuild": "pagefind --site dist"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
     "@astrojs/node": "^9.0.0",
-    "@astrojs/preact": "^4.0.3",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/vercel": "^8.0.4",
     "@iconify-json/lucide": "^1.2.20",
@@ -24,7 +24,6 @@
     "@yaireo/relative-time": "^1.0.5",
     "astro": "^5.1.2",
     "astro-expressive-code": "^0.38.3",
-    "preact": "^10.25.4",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
