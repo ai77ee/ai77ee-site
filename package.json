@@ -5,11 +5,10 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist/client",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
-    "astro": "astro",
-    "postbuild": "pagefind --site dist/client"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
