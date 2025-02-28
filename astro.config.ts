@@ -42,6 +42,10 @@ export default defineConfig({
       lang: 'en',
     }
   }), preact(), pagefind()],
- adapter: vercel(),
- //adapter: node({ mode: 'standalone' }), // Use standalone adapter for local testing
+  /*
+ adapter: vercel({
+  imageService: true,
+  devImageService: 'squoosh',
+})*/
+ adapter: node({ mode: 'standalone' }), // Use standalone adapter for local testing
 });

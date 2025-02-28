@@ -4,7 +4,8 @@
   "version": "1.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npx pagefind",
+    "postbuild": "npx pagefind",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro"

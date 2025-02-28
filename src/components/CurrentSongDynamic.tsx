@@ -62,8 +62,10 @@ const CurrentSongComponent = () => {
       if (indicatorRef.current) {
         if (data.listening) {
           indicatorRef.current.classList.add('listening');
+          indicatorRef.current.style.visibility = 'visible'
         } else {
           indicatorRef.current.classList.remove('listening');
+          indicatorRef.current.style.visibility = 'hidden'
         }
       }
 
@@ -99,11 +101,11 @@ const CurrentSongComponent = () => {
           </div>
           <div class="song-info">
             <p class="song-title" ref={songTitleRef}>Loading...</p>
-            <p class="song-artists" ref={songArtistsRef}>Loading...</p>
+            <p class="song-artists" ref={songArtistsRef}></p>
           </div>
           <div class="listening-info">
-            <div class="indicator" ref={indicatorRef} />
-            <span ref={listeningStatusRef}>Loading...</span>
+            <div class="indicator" ref={indicatorRef} hidden/>
+            <span ref={listeningStatusRef}></span>
           </div>
         </div>
       ) : (
