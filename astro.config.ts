@@ -8,7 +8,7 @@ import { spectreDark } from './src/ec-theme';
 import vercel from '@astrojs/vercel';
 import preact from '@astrojs/preact';
 import node from '@astrojs/node';
-import pagefind from "astro-pagefind";
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ai77ee.vercel.app',
@@ -41,12 +41,12 @@ export default defineConfig({
       emitMetadata: false,
       lang: 'en',
     }
-  }), preact(), pagefind()],
-/*
+  }), preact()],
+
  adapter: vercel({
   imageService: true,
   devImageService: 'squoosh',
 })
-  */
- adapter: node({ mode: 'standalone' }), // Use standalone adapter for local testing
+
+// adapter: node({ mode: 'standalone' }), // Use standalone adapter for local testing
 });

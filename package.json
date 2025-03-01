@@ -24,7 +24,6 @@
     "@yaireo/relative-time": "^1.0.5",
     "astro": "^5.1.2",
     "astro-expressive-code": "^0.38.3",
-    "astro-pagefind": "^1.8.1",
     "preact": "^10.25.4",
     "sharp": "^0.33.5"
   },
