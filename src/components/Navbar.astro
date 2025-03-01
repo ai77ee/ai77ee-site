@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { name } from 'spectre:globals';
-
+import Search from 'astro-pagefind/components/Search';
 const path = Astro.url.pathname;
 ---
 
@@ -20,6 +20,16 @@ const path = Astro.url.pathname;
     <li class='nav-separator'>/</li>
     <li>
       <input id='search' type='text' placeholder='Search (Ctrl+K)' />
+      <!--
+      <Search
+        id='search'
+        className='pagefind-ui'
+        uiOptions={{
+          showImages: false,
+          excerptLength: 15,
+        }}
+      />
+-->
       <div id='search-results'></div>
     </li>
   </ul>
@@ -35,11 +45,27 @@ const path = Astro.url.pathname;
   </button>
 </nav>
 <script is:inline>
+  const searchDiv = document.getElementById('search');
+  const search = searchDiv.querySelector('input');
+
   const searchElement = document.querySelector('#search');
   const results = document.querySelector('#search-results');
   const navToggle = document.querySelector('.mobile-nav-toggle');
 
   let focusIndex = -1;
+
+  function openPagefind() {
+    const searchDiv = document.getElementById('search');
+    const search = searchDiv.querySelector('input');
+    setTimeout(() => {
+      search.focus();
+    }, 0);
+  }
+
+  function closePagefind() {
+    const search = document.getElementById('search');
+    search.value = '';
+  }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'k' && e.ctrlKey) {
@@ -137,6 +163,7 @@ const path = Astro.url.pathname;
   navToggle?.addEventListener('click', () => {
     navToggle.classList.toggle('active');
     document.querySelector('nav').classList.toggle('active');
+    openPagefind();
   });
 
   const handleTabletChange = () => {
