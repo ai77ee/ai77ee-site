@@ -100,11 +100,11 @@ const CurrentSongComponent = () => {
           </div>
           <div class="song-info">
             <p class="song-title" ref={songTitleRef}>Loading...</p>
-            <p class="song-artists" ref={songArtistsRef}></p>
+            <p class="song-artists" ref={songArtistsRef}> </p>
           </div>
           <div class="listening-info">
-            <div class="indicator" ref={indicatorRef} hidden/>
-            <span ref={listeningStatusRef}></span>
+            <div class="indicator" ref={indicatorRef}/>
+            <span ref={listeningStatusRef}> </span>
           </div>
         </div>
       ) : (
