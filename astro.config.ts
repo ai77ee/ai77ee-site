@@ -8,6 +8,7 @@ import { spectreDark } from './src/ec-theme';
 import vercel from '@astrojs/vercel';
 import preact from '@astrojs/preact';
 import node from '@astrojs/node';
+import pagefind from "astro-pagefind";
 
 // https://astro.build/config
 export default defineConfig({
@@ -41,6 +42,6 @@ export default defineConfig({
       emitMetadata: false,
       lang: 'en',
     }
-  }), preact()],
+  }), preact(), pagefind()],
  adapter: vercel()
 });
