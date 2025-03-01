@@ -62,7 +62,7 @@ const CurrentSongComponent = () => {
       if (indicatorRef.current) {
         if (data.listening) {
           indicatorRef.current.classList.add('listening');
-          indicatorRef.current.style.visibility = 'visible'
+          
         } else {
           indicatorRef.current.classList.remove('listening');
         }
