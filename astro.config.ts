@@ -42,5 +42,6 @@ export default defineConfig({
       lang: 'en',
     }
   }), preact()],
- adapter: vercel()
+ //adapter: vercel()
+  adapter: node({ mode: 'standalone' }), 
 });
