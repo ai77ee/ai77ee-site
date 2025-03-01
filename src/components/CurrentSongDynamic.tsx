@@ -65,7 +65,6 @@ const CurrentSongComponent = () => {
            indicatorRef.current.style.visibility = 'visible'
         } else {
           indicatorRef.current.classList.remove('listening');
-          indicatorRef.current.style.visibility = 'hidden'
         }
       }
 
