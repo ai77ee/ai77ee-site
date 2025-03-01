@@ -5,8 +5,8 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npx pagefind --site ./dist",
-    "postbuild": "npx pagefind --site ./dist",
+    "build": "astro build && npx pagefind",
+    "postbuild": "npx pagefind",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro"
