@@ -1,7 +1,6 @@
 ---
 import Icon from './Icon.astro';
 import { name } from 'spectre:globals';
-import Search from 'astro-pagefind/components/Search';
 const path = Astro.url.pathname;
 ---
 
@@ -19,17 +18,7 @@ const path = Astro.url.pathname;
     </li>
     <li class='nav-separator'>/</li>
     <li>
-      <input id='search' type='text' placeholder='Search (Ctrl+K)' />
-      <!--
-      <Search
-        id='search'
-        className='pagefind-ui'
-        uiOptions={{
-          showImages: false,
-          excerptLength: 15,
-        }}
-      />
--->
+      <input id='search' type='text' placeholder='Search (Alt+K)' />
       <div id='search-results'></div>
     </li>
   </ul>
@@ -45,9 +34,6 @@ const path = Astro.url.pathname;
   </button>
 </nav>
 <script is:inline>
-  const searchDiv = document.getElementById('search');
-  const search = searchDiv.querySelector('input');
-
   const searchElement = document.querySelector('#search');
   const results = document.querySelector('#search-results');
   const navToggle = document.querySelector('.mobile-nav-toggle');
@@ -62,13 +48,8 @@ const path = Astro.url.pathname;
     }, 0);
   }
 
-  function closePagefind() {
-    const search = document.getElementById('search');
-    search.value = '';
-  }
-
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'k' && e.ctrlKey) {
+    if (e.key === 'k' && e.altKey) {
       searchElement.focus();
     }
 
@@ -111,7 +92,7 @@ const path = Astro.url.pathname;
   });
 
   searchElement?.addEventListener('blur', () => {
-    searchElement.placeholder = 'Search (Ctrl+K)';
+    searchElement.placeholder = 'Search (Alt+K)';
   });
 
   searchElement?.addEventListener('blur', () => {

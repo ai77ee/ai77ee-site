@@ -8,6 +8,9 @@ import { spectreDark } from './src/ec-theme';
 import vercel from '@astrojs/vercel';
 import preact from '@astrojs/preact';
 import node from '@astrojs/node';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // https://astro.build/config
 export default defineConfig({
@@ -43,10 +46,8 @@ export default defineConfig({
     }
   }), preact()],
 
- adapter: vercel({
-  imageService: true,
-  devImageService: 'squoosh',
-})
-
-// adapter: node({ mode: 'standalone' }), // Use standalone adapter for local testing
+  adapter: process.env.ENVIRONMENT === 'vercel' ? vercel({
+    imageService: true,
+    devImageService: 'squoosh',
+  }) : node({ mode: 'standalone' }),
 });
