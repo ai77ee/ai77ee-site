@@ -21,8 +21,25 @@
   margin-bottom: .75rem;
 }
 
-.overview-list li:last-of-type {
-  margin-bottom: 0;
+
+/* Small screens */
+@media screen and (max-width: 1380px) {
+.overview-list.info-list li {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+
+  }
+  .profile-picture {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+.overview-list.socials-list {
+    margin-top: 1rem;
+}
 }
 
 a {
@@ -38,6 +55,11 @@ a:hover {
 
 .no-mt {
   margin-top: 0;
+}
+
+.no-mt.mt-b {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 main {

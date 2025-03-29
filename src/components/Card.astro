@@ -17,5 +17,25 @@ const { class: className, ...props } = Astro.props;
     border: 1px solid #353535;
     padding: 1.5rem;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Small screens . mobile */
+  @media screen and (max-width: 640px) {
+    .card.small-card {
+      font-size: small;
+      align-items: center;
+    }
+  }
+  /* Small screens . tablets*/
+  @media screen and (max-width: 1380px) {
+    .card.small-card {
+      height: 200px;
+      padding: 1rem;
+    }
+    .card.small-card.info-card {
+      align-items: center;
+    }
   }
 </style>

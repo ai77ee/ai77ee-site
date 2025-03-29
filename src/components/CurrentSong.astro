@@ -3,7 +3,7 @@ import Card from './Card.astro';
 import CurrentSongDynamic from './CurrentSongDynamic';
 ---
 
-<Card>
+<Card class='small-card'>
   <CurrentSongDynamic client:load />
 </Card>
 
@@ -68,5 +68,54 @@ import CurrentSongDynamic from './CurrentSongDynamic';
   .indicator.listening {
     background-color: #36f443;
     box-shadow: 0 0 12px #36f443;
+  }
+  @media screen and (max-width: 640px) {
+    .song-title {
+      font-size: 1.2rem;
+    }
+    .song-info {
+      margin: 0.5rem;
+    }
+    .listening-info {
+      margin: 0.5rem;
+      font-size: 0.725rem;
+    }
+  }
+  @media screen and (max-width: 1380px) {
+    .song-info {
+      margin: 0.8rem;
+    }
+    .listening-info {
+      margin: 0.8rem;
+    }
+
+    .listening-data {
+      position: relative;
+      isolation: isolate;
+      min-height: 135px;
+    }
+
+    .listening-data[style*='--bg-image']::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center center;
+      z-index: -2;
+    }
+
+    .listening-data[style*='--bg-image']::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    /* Hide image element only when background image is active */
+    .listening-data[style*='--bg-image'] img[data-song-image] {
+      display: none;
+    }
   }
 </style>

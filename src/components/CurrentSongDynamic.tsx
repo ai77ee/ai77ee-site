@@ -109,7 +109,8 @@ const CurrentSongComponent = () => {
           </div>
         </div>
       ) : (
-        <div class="listening-data">
+        <div class="listening-data"
+         style={songData.image ? { '--bg-image': `url(${songData.image})` } : {}}>
           {songData.image && (
             <img
               data-song-image
@@ -132,7 +133,7 @@ const CurrentSongComponent = () => {
             />
             <span data-listening-status ref={listeningStatusRef}>
               {songData.listening
-                ? 'Currently Listening'
+                ? 'Currently listening'
                 : `Listened ${relativeTime.from(new Date(Number(songData.timestamp) * 1000))}`}
             </span>
           </div>
