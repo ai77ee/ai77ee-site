@@ -52,6 +52,15 @@
     },
     "text": "GitHub",
     "link": "https://github.com/ai77ee"
+  },
+   {
+    "id": 6,
+    "icon": {
+      "type": "simple-icons",
+      "name": "youtubemusic"
+    },
+    "text": "YT Music",
+    "link": "https://music.youtube.com/@adachichichi"
   }
 
 

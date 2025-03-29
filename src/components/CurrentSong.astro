@@ -3,7 +3,7 @@ import Card from './Card.astro';
 import CurrentSongDynamic from './CurrentSongDynamic';
 ---
 
-<Card>
+<Card class='small-card'>
   <CurrentSongDynamic client:load />
 </Card>
 
@@ -68,5 +68,17 @@ import CurrentSongDynamic from './CurrentSongDynamic';
   .indicator.listening {
     background-color: #36f443;
     box-shadow: 0 0 12px #36f443;
+  }
+  @media screen and (max-width: 1380px) {
+    .listening-data {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .listening-data img {
+      width: 72px;
+      height: 72px;
+    }
   }
 </style>
