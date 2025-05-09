@@ -25,6 +25,14 @@ export async function GET() {
     const { recenttracks } = response;
     const recentTrack = recenttracks?.track?.[0];
 
+        // If there's no recent track data, return an error
+    if (!recentTrack) {
+      return new Response(
+        JSON.stringify({ error: 'No recent track data found' }),
+        { status: 404 }
+      );
+    }
+
     cachedData = {
       song:  recentTrack?.name ?? '',
       artist: recentTrack.artist?.['#text'] ?? '',
@@ -35,13 +43,6 @@ export async function GET() {
 
     lastFetchTime = now;
 
-    // If there's no recent track data, return an error
-    if (!recentTrack) {
-      return new Response(
-        JSON.stringify({ error: 'No recent track data found' }),
-        { status: 404 }
-      );
-    }
 
 return new Response(JSON.stringify(cachedData), {
       headers: { 'content-type': 'application/json' },

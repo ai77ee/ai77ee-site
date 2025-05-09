@@ -8,8 +8,17 @@
     "text": "Mastodon",
     "link": "https://tkz.one/@aimee"
   },
-      {
+    {
     "id": 2,
+    "icon": {
+      "type": "simple-icons",
+      "name": "instagram"
+    },
+    "text": "Instagram",
+    "link": "https://www.instagram.com/bouipowi/"
+  },
+      {
+    "id": 3,
     "icon": {
       "type": "simple-icons",
       "name": "myanimelist"
@@ -18,7 +27,7 @@
     "link": "https://myanimelist.net/profile/ai77ee"
   },
      {
-    "id": 3,
+    "id": 4,
     "icon": {
       "type": "simple-icons",
       "name": "anilist"
@@ -26,42 +35,15 @@
     "text": "AniList",
     "link": "https://anilist.co/user/ai77ee/"
   },
-  {
-    "id": 4,
-    "icon": {
-      "type": "simple-icons",
-      "name": "pixelfed"
-    },
-    "text": "PixelFed",
-    "link": "https://pixelfed.social/i/web/profile/788808852002712514"
-  },
-   {
-    "id": 4,
-    "icon": {
-      "type": "simple-icons",
-      "name": "pixelfed"
-    },
-    "text": "PixelFed",
-    "link": "https://pixelfed.social/i/web/profile/788808852002712514"
-  },
- {
-    "id": 5,
-    "icon": {
-      "type": "simple-icons",
-      "name": "github"
-    },
-    "text": "GitHub",
-    "link": "https://github.com/ai77ee"
-  },
+
    {
     "id": 6,
     "icon": {
       "type": "simple-icons",
-      "name": "youtubemusic"
+      "name": "pixelfed"
     },
-    "text": "YT Music",
-    "link": "https://music.youtube.com/@adachichichi"
+    "text": "pixelfed",
+    "link": "https://pixelfed.social/ai77ee"
   }
-
 
 ]
