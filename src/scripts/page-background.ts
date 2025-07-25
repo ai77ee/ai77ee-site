@@ -23,13 +23,8 @@ class PageBackground {
   private baseCtx: CanvasRenderingContext2D;
   private overlayCtx: CanvasRenderingContext2D;
   
-  private width: number = document.body.clientWidth;
-  private height: number = Math.max(
-    document.body.scrollHeight, 
-    document.body.offsetHeight, 
-    document.documentElement.clientHeight,
-    document.documentElement.offsetHeight 
-  );
+  private width: number = window.innerWidth;
+  private height: number = window.innerHeight;
 
   private letterPositions: LetterPosition[] = [];
   private letterInstances: LetterInstance[] = [];
@@ -86,14 +81,14 @@ class PageBackground {
     const lines = Math.ceil(this.height / 35);
   
     // Loop through the canvas and draw the text
+    this.baseCtx.font = '28px Geist Mono';
+    this.baseCtx.textAlign = 'start';
+    this.baseCtx.textBaseline = 'top';
+    this.baseCtx.fillStyle = 'rgba(255, 255, 255, 0.01)';
+      
     for(let i = 0; i < lines; i++) {
       for(let j = 0; j < letters; j++) {
-        this.baseCtx.font = '28px Geist Mono';
-        this.baseCtx.textAlign = 'start';
-        this.baseCtx.textBaseline = 'top';
-        this.baseCtx.fillStyle = 'rgba(255, 255, 255, 0.01)';
         this.baseCtx.fillText(text[j % text.length], j * 17, i * 35);
-      
         this.letterPositions.push({
           x: j * 17,
           y: i * 35,
@@ -108,14 +103,15 @@ class PageBackground {
       Number.parseInt((lines * 0.75).toFixed())
     );
   
+    this.overlayCtx.font = 'bold 28px Geist Mono';
+    this.overlayCtx.textAlign = 'start';
+    this.overlayCtx.textBaseline = 'top';
+    this.overlayCtx.fillStyle = `rgba(${this.primaryRgb}, 0)`;
+    this.overlayCtx.shadowBlur = 16;
+    this.overlayCtx.shadowColor = `rgba(${this.primaryRgb}, 0)`;
+
     // Draw the letters on the overlay canvas
     for(const letter of randomLetters) {
-      this.overlayCtx.font = 'bold 28px Geist Mono';
-      this.overlayCtx.textAlign = 'start';
-      this.overlayCtx.textBaseline = 'top';
-      this.overlayCtx.fillStyle = `rgba(${this.primaryRgb}, 0)`;
-      this.overlayCtx.shadowBlur = 16;
-      this.overlayCtx.shadowColor = `rgba(${this.primaryRgb}, 0)`;
       this.overlayCtx.fillText(letter.letter, letter.x, letter.y);
   
       // Some number between LETTER_FADE_DURATION[0] and LETTER_FADE_DURATION[1] (in seconds)
@@ -194,6 +190,11 @@ class PageBackground {
     // Clear the overlay canvas
     this.overlayCtx.clearRect(0, 0, this.overlayCanvas.width, this.overlayCanvas.height);
   
+    this.overlayCtx.font = 'bold 28px Geist Mono';
+    this.overlayCtx.textAlign = 'start';
+    this.overlayCtx.textBaseline = 'top';
+    this.overlayCtx.shadowBlur = 16;
+
     for(const letter of this.letterInstances) {
       if (letter.fadeout > Date.now()) continue;
 
@@ -212,11 +213,7 @@ class PageBackground {
         });
       }
       
-      this.overlayCtx.font = 'bold 28px Geist Mono';
-      this.overlayCtx.textAlign = 'start';
-      this.overlayCtx.textBaseline = 'top';
       this.overlayCtx.fillStyle = `rgba(${this.primaryRgb}, ${alpha})`;
-      this.overlayCtx.shadowBlur = 16;
       this.overlayCtx.shadowColor = `rgba(${this.primaryRgb}, ${alpha})`;
       this.overlayCtx.fillText(letter.letter, letter.x, letter.y);
     }
@@ -228,13 +225,8 @@ class PageBackground {
    * Resizes the background canvases.
    */
   public resizeBackground = () => {
-    this.width = document.body.clientWidth;
-    this.height = Math.max(
-      document.body.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.clientHeight,
-      document.documentElement.offsetHeight
-    );
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
 
     this.baseCanvas.width = this.width;
     this.baseCanvas.height = this.height;
@@ -277,13 +269,6 @@ async function initializeBackground() {
   window.addEventListener('resize', () => {
     background.resizeBackground();
   });
-
-  // Add a listener for when the body of the page grows
-  const observer = new ResizeObserver(() => {
-    background.resizeBackground();
-  });
-
-  observer.observe(document.body);
 }
 
 initializeBackground();

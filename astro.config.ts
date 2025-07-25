@@ -11,6 +11,17 @@ import node from '@astrojs/node';
 import dotenv from 'dotenv';
 
 dotenv.config();
+const {
+  GISCUS_REPO,
+  GISCUS_REPO_ID,
+  GISCUS_CATEGORY,
+  GISCUS_CATEGORY_ID,
+  GISCUS_MAPPING,
+  GISCUS_STRICT,
+  GISCUS_REACTIONS_ENABLED,
+  GISCUS_EMIT_METADATA,
+  GISCUS_LANG
+} = process.env;
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,15 +45,15 @@ export default defineConfig({
       }
     },
     giscus: {
-      repository: 'ai77ee/ai77ee-site',
-      repositoryId: 'R_kgDONwflww',
-      category: 'General',
-      categoryId: 'DIC_kwDONwflw84CmZK7',
-      mapping: 'pathname',
-      strict: true,
-      reactionsEnabled: true,
-      emitMetadata: false,
-      lang: 'en',
+      repository: GISCUS_REPO ?? '',
+      repositoryId:  GISCUS_REPO_ID ?? '',
+      category: GISCUS_CATEGORY ?? '',
+      categoryId: GISCUS_CATEGORY_ID ?? '',
+      mapping:  GISCUS_MAPPING as any,
+      strict: GISCUS_STRICT === "true",
+      reactionsEnabled: GISCUS_REACTIONS_ENABLED === "true",
+      emitMetadata:  GISCUS_EMIT_METADATA === "true",
+      lang: GISCUS_LANG ?? '',
     }
   }), preact()],
 
