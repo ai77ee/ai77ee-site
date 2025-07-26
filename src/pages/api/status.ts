@@ -1,53 +1,58 @@
+import { LastFm } from '@imikailoby/lastfm-ts';
+
+const lastFm = new LastFm(import.meta.env.LASTFM_API_KEY);
+export const prerender = false;
+
+// Simple in-memory cache
+let cachedData: any = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 30 * 1000; // 30 segundos
+
 export async function GET() {
+  const now = Date.now();
+
+  // Sirve desde el caché si no ha expirado
+  if (cachedData && now - lastFetchTime < CACHE_DURATION) {
+    return new Response(JSON.stringify(cachedData), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+    });
+  }
+
   try {
-    const CLOUDFLARE_ACCOUNT_ID = import.meta.env.CLOUDFLARE_ACCOUNT_ID;
-    const CLOUDFLARE_NAMESPACE_ID = import.meta.env.CLOUDFLARE_NAMESPACE_ID;
-    const CLOUDFLARE_API_TOKEN = import.meta.env.CLOUDFLARE_API_TOKEN;
-
-    if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_NAMESPACE_ID || !CLOUDFLARE_API_TOKEN) {
-      return new Response(JSON.stringify({ error: 'Missing Cloudflare environment variables' }), {
-        status: 500,
-        headers: {
-          'cache-control': 'no-store',
-        },
-      });
-    }
-
-    const KV_URL = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/storage/kv/namespaces/${CLOUDFLARE_NAMESPACE_ID}/values/lastfm-data`;
-
-    const res = await fetch(KV_URL, {
-      headers: {
-        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
-      },
+    const response = await lastFm.user.getRecentTracks({
+      user: import.meta.env.LASTFM_USER,
+      limit: '1',
+      page: '1'
     });
 
-    if (!res.ok) {
-      return new Response(JSON.stringify({ error: 'Failed to fetch KV data' }), {
-        status: 500,
-        headers: {
-          'cache-control': 'no-store',
-        },
-      });
+    const recentTrack = response?.recenttracks?.track?.[0];
+
+    if (!recentTrack) {
+      return new Response(JSON.stringify({ error: 'No recent track found' }), { status: 404 });
     }
 
-    const data = await res.text();
-    console.log('KV data fetched successfully:', data);
+    const isNowPlaying = recentTrack['@attr']?.nowplaying === 'true';
+    const timestamp = isNowPlaying
+      ? Math.floor(now / 1000)
+      : Number(recentTrack?.date?.uts) || Math.floor(now / 1000);
 
-    return new Response(data, {
-      headers: {
-        'content-type': 'application/json',
-        'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'pragma': 'no-cache',
-        'expires': '0',
-      },
+    // Preparar la respuesta
+    cachedData = {
+      song: recentTrack.name || 'Unknown',
+      artist: recentTrack.artist?.['#text'] || 'Unknown',
+      image: recentTrack.image?.[2]?.['#text'] || '',
+      listening: isNowPlaying,
+      timestamp
+    };
+
+    lastFetchTime = now;
+
+    return new Response(JSON.stringify(cachedData), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
+
   } catch (err) {
-    console.error('Error in GET function:', err);
-    return new Response(JSON.stringify({ error: 'Internal error' }), {
-      status: 500,
-      headers: {
-        'cache-control': 'no-store',
-      },
-    });
+    console.error('Error fetching from Last.fm:', err);
+    return new Response(JSON.stringify({ error: 'Internal error' }), { status: 500 });
   }
 }
