@@ -1,32 +1,32 @@
-// src/pages/api/status.ts
-import Redis from 'ioredis';
-
-const redis = new Redis({
-  host: process.env.UPSTASH_REDIS_REST_URL,
-  password: process.env.UPSTASH_REDIS_REST_TOKEN,
-  tls: {}, // Necesario para Upstash REST API
-});
-
-export const prerender = false;
-
 export async function GET() {
   try {
-    const cached = await redis.get('lastfm');
+    const CLOUDFLARE_ACCOUNT_ID = import.meta.env.CLOUDFLARE_ACCOUNT_ID;
+    const CLOUDFLARE_NAMESPACE_ID = import.meta.env.CLOUDFLARE_NAMESPACE_ID;
+    const CLOUDFLARE_API_TOKEN = import.meta.env.CLOUDFLARE_API_TOKEN;
 
-    if (!cached) {
-      return new Response(
-        JSON.stringify({ error: 'No cached data available' }),
-        { status: 503 }
-      );
+    if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_NAMESPACE_ID || !CLOUDFLARE_API_TOKEN) {
+      return new Response(JSON.stringify({ error: 'Missing Cloudflare environment variables' }), { status: 500 });
     }
 
-    return new Response(cached, {
+    const KV_URL = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/storage/kv/namespaces/${CLOUDFLARE_NAMESPACE_ID}/values/lastfm-data`;
+
+    const res = await fetch(KV_URL, {
+      headers: {
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+      },
+    });
+
+    if (!res.ok) {
+      return new Response(JSON.stringify({ error: 'Failed to fetch KV data' }), { status: 500 });
+    }
+
+    const data = await res.text();
+    console.log('KV data fetched successfully:', data); // Para depuración
+    return new Response(data, {
       headers: { 'content-type': 'application/json' },
     });
-  } catch (error) {
-    console.error('Error reading from Redis:', error);
-    return new Response(JSON.stringify({ error: 'Redis error' }), {
-      status: 500,
-    });
+  } catch (err) {
+    console.error('Error in GET function:', err); // Para depuración
+    return new Response(JSON.stringify({ error: 'Internal error' }), { status: 500 });
   }
 }
