@@ -29,7 +29,9 @@ const CurrentSongComponent = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`/api/status?${new Date().getTime()}`);
+      const response = await fetch(`/api/status?${Date.now()}`, {
+    cache: "no-store"
+  });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
