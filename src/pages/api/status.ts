@@ -26,7 +26,6 @@ export async function GET() {
     });
 
     const recentTrack = response?.recenttracks?.track?.[0];
-
     if (!recentTrack) {
       return new Response(JSON.stringify({ error: 'No recent track found' }), { status: 404 });
     }
@@ -47,9 +46,12 @@ export async function GET() {
 
     lastFetchTime = now;
 
-    return new Response(JSON.stringify(cachedData), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
-    });
+return new Response(JSON.stringify(cachedData), {
+  headers: {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'max-age=0, s-maxage=30, stale-while-revalidate=60'
+  }
+});
 
   } catch (err) {
     console.error('Error fetching from Last.fm:', err);
