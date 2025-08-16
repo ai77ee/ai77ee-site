@@ -1,58 +1,60 @@
 import { LastFm } from '@imikailoby/lastfm-ts';
 
-let cachedData: any = null;
-let lastFetchTime = 0;
-// Initialize LastFm API
 const lastFm = new LastFm(import.meta.env.LASTFM_API_KEY);
 export const prerender = false;
+
+// Simple in-memory cache
+let cachedData: any = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 30 * 1000; // 30 segundos
+
 export async function GET() {
-      const now = Date.now();
-  // Cache valid for 30 seconds
-  if (cachedData && now - lastFetchTime < 30 * 1000) {
+  const now = Date.now();
+
+  // Sirve desde el caché si no ha expirado
+  if (cachedData && now - lastFetchTime < CACHE_DURATION) {
     return new Response(JSON.stringify(cachedData), {
-      headers: { 'content-type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
   }
-      
+
   try {
-    // Fetch the recent track data from LastFM
     const response = await lastFm.user.getRecentTracks({
-      user: 'aiimeee', 
+      user: import.meta.env.LASTFM_USER,
       limit: '1',
-      page: '1',
+      page: '1'
     });
 
-    const { recenttracks } = response;
-    const recentTrack = recenttracks?.track?.[0];
-
-        // If there's no recent track data, return an error
+    const recentTrack = response?.recenttracks?.track?.[0];
     if (!recentTrack) {
-      return new Response(
-        JSON.stringify({ error: 'No recent track data found' }),
-        { status: 404 }
-      );
+      return new Response(JSON.stringify({ error: 'No recent track found' }), { status: 404 });
     }
 
+    const isNowPlaying = recentTrack['@attr']?.nowplaying === 'true';
+    const timestamp = isNowPlaying
+      ? Math.floor(now / 1000)
+      : Number(recentTrack?.date?.uts) || Math.floor(now / 1000);
+
+    // Preparar la respuesta
     cachedData = {
-      song:  recentTrack?.name ?? '',
-      artist: recentTrack.artist?.['#text'] ?? '',
-      image: recentTrack?.image[2]['#text'] ?? '',
-      listening: recentTrack?.['@attr']?.['nowplaying'] ?? false,
-      timestamp: recentTrack?.date?.['uts'] ?? 'Unknown',
+      song: recentTrack.name || 'Unknown',
+      artist: recentTrack.artist?.['#text'] || 'Unknown',
+      image: recentTrack.image?.[2]?.['#text'] || '',
+      listening: isNowPlaying,
+      timestamp
     };
 
     lastFetchTime = now;
 
-
 return new Response(JSON.stringify(cachedData), {
-      headers: { 'content-type': 'application/json' },
-    });
+  headers: {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'max-age=0, s-maxage=30, stale-while-revalidate=60'
+  }
+});
 
-  } catch (error) {
-    console.error('Error fetching data from LastFM:', error);
-    return new Response(
-      JSON.stringify({ error: 'Failed to fetch now-playing data' }),
-      { status: 500 }
-    );
+  } catch (err) {
+    console.error('Error fetching from Last.fm:', err);
+    return new Response(JSON.stringify({ error: 'Internal error' }), { status: 500 });
   }
 }

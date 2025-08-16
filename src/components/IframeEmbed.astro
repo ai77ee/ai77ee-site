@@ -1,0 +1,51 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  width?: string;
+  height?: string;
+  allow?: string;
+  sandbox?: string;
+  frameborder?: string;
+  loading?: 'eager' | 'lazy';
+  referrerpolicy?:
+    | 'no-referrer'
+    | 'no-referrer-when-downgrade'
+    | 'origin'
+    | 'origin-when-cross-origin'
+    | 'unsafe-url';
+}
+
+const {
+  src,
+  title = 'Embedded Content',
+  width = '100%',
+  height = '600px',
+  allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+  sandbox,
+  frameborder = '0',
+  loading = 'lazy',
+  referrerpolicy = 'strict-origin-when-cross-origin',
+} = Astro.props;
+---
+
+<iframe
+  src={src}
+  title={title}
+  width={width}
+  height={height}
+  allow={allow}
+  sandbox={sandbox}
+  loading={loading}
+  referrerpolicy={referrerpolicy}
+  style={{ border: '0' }}
+>
+  Your browser does not support iframes.
+</iframe>
+
+<style>
+  iframe {
+    width: 100%; /* for responsiveness */
+    display: block; /* remove extra space  */
+  }
+</style>

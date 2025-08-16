@@ -3,22 +3,31 @@
     "id": 1,
     "icon": {
       "type": "simple-icons",
-      "name": "mastodon"
-    },
-    "text": "Mastodon",
-    "link": "https://tkz.one/@aimee"
-  },
-    {
-    "id": 2,
-    "icon": {
-      "type": "simple-icons",
       "name": "instagram"
     },
     "text": "Instagram",
     "link": "https://www.instagram.com/bouipowi/"
   },
-      {
+   {
+    "id": 2,
+    "icon": {
+      "type": "simple-icons",
+      "name": "lastdotfm"
+    },
+    "text": "Last.fm",
+    "link": "https://www.last.fm/user/aiimeee"
+  },
+  {
     "id": 3,
+    "icon": {
+      "type": "simple-icons",
+      "name": "github"
+    },
+    "text": "GitHub",
+    "link": "https://github.com/ai77ee/"
+  },
+  {
+    "id": 4,
     "icon": {
       "type": "simple-icons",
       "name": "myanimelist"
@@ -27,7 +36,7 @@
     "link": "https://myanimelist.net/profile/ai77ee"
   },
      {
-    "id": 4,
+    "id": 5,
     "icon": {
       "type": "simple-icons",
       "name": "anilist"
@@ -35,7 +44,6 @@
     "text": "AniList",
     "link": "https://anilist.co/user/ai77ee/"
   },
-
    {
     "id": 6,
     "icon": {
@@ -44,6 +52,15 @@
     },
     "text": "pixelfed",
     "link": "https://pixelfed.social/ai77ee"
+  },
+  
+{
+    "id": 7,
+    "icon": {
+      "type": "simple-icons",
+      "name": "mastodon"
+    },
+    "text": "Mastodon",
+    "link": "https://tkz.one/@aimee"
   }
-
 ]
