@@ -1,0 +1,38 @@
+---
+title: "Something happened and your PIN isn´t available Windows 10/11 Fix"
+description: "A working fix I found for the PIN issue in Windows 10/11"
+image: "../assets/pin-message.jpg"
+createdAt: 08-16-2025
+draft: false
+tags:
+  - fix, tutorial
+---
+# The annoying PIN issue...
+This is the only fix I found that works for the "Something happened and your PIN isn´t available" message that appears in the login screen and won't let you enter lol.
+In my free time I help my friends and family with their computer issues, and I encountered this issue twice...
+The first time I couldn't find a proper fix and just reinstalled Windows.
+The second time reinstalling Windows wasn't an option, so after some research and trial and error I found a fix that worked for me and I hope it works for you too.
+Ok I will stop rambling now and get to the point.
+## The Fix
+1. Since you can't log in with your PIN or password, you will need to hold `Shift` and click on Restart in the login screen.
+2. This will take you to the Windows Recovery Environment (WinRE).
+3. In WinRE, go to **Troubleshoot** > **Advanced options** > **Command Prompt**.
+4. In the Command Prompt, type `regedit` and press Enter.
+5. This will open the Registry Editor.
+6. Go to **File** > **Load Hive**.
+7. Navigate to `C:\Windows\System32\Config` and select the file named `SOFTWARE`.
+8. Name the hive something like `msoftware` and click OK.
+9. Now navigate to `HKEY_LOCAL_MACHINE\msoftware\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device`.
+10. In the right pane, you should see a value named `DevicePasswordLessBuildVersion`. Then, change its value to `0`.
+11. Close the Registry Editor and type `exit` in the Command Prompt to close it.
+12. Turn off your computer and turn it back on.
+13. In the login screen, you should now be able to log in with your password.
+14. Once logged in, you can go to **Settings** > **Accounts** > **Sign-in options** and set up a new PIN.
+This should fix the issue and allow you to use your PIN again.
+
+Alright, this wasn't possible without this YouTube video I found, so I will link it here:
+[Your PIN is No Longer Available On Windows 11/10 | How To Fix your pin is no longer available (2024)](https://youtu.be/cVKtQkh1WQE?si=L0NeiiUzahmWJcay)
+You can watch it for a visual guide if the steps above are not clear enough.
+
+If you have any questions feel free to reach out to me on my socials or leave a comment below.
+I hope this helps you out!
