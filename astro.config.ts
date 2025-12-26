@@ -10,7 +10,7 @@ import node from '@astrojs/node';
 import spectre from './package/src';
 import { spectreDark } from './src/ec-theme';
 
-const env = loadEnv(process.env.NODE_ENV!, process.cwd(), "PUBLIC_"); 
+const env = loadEnv(process.env.NODE_ENV!, process.cwd(), "PUBLIC_");
 
 
 const {
@@ -23,11 +23,11 @@ const {
   PUBLIC_GISCUS_REACTIONS_ENABLED,
   PUBLIC_GISCUS_EMIT_METADATA,
   PUBLIC_GISCUS_LANG
-} = env; 
+} = env;
 const IS_VERCEL_ENV = process.env.VERCEL === '1';
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ai77ee.vercel.app',
+  site: 'https://ai77ee.xyz',
   output: 'static',
   integrations: [expressiveCode({
     themes: [spectreDark],
@@ -47,7 +47,7 @@ export default defineConfig({
       }
     },
     giscus: {
-      repository: PUBLIC_GISCUS_REPO!, 
+      repository: PUBLIC_GISCUS_REPO!,
       repositoryId: PUBLIC_GISCUS_REPO_ID!,
       category: PUBLIC_GISCUS_CATEGORY!,
       categoryId: PUBLIC_GISCUS_CATEGORY_ID!,
@@ -61,8 +61,8 @@ export default defineConfig({
 
   adapter: process.env.VERCEL === '1'
     ? vercel({
-        imageService: true,
-        devImageService: 'squoosh',
-      })
+      imageService: true,
+      devImageService: 'squoosh',
+    })
     : node({ mode: 'standalone' }),
 });

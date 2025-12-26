@@ -38,8 +38,8 @@ const { Content: Favs } = await render(favs!);
       <ImageGlow
         class='profile-picture'
         quality={100}
-        width={110}
-        height={110}
+        width={120}
+        height={120}
         src={ProfilePicture}
         alt='ai77ee cool profile picture'
         loading='eager'
@@ -124,7 +124,7 @@ const { Content: Favs } = await render(favs!);
         {
           posts
             .sort(
-              (a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime()
+              (a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime(),
             )
             .slice(0, 2)
             .map((post) => (

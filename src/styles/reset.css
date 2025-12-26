@@ -34,7 +34,7 @@ body {
 
 body {
 	-webkit-font-smoothing: antialiased;
-  font-family: 'Geist', sans-serif;
+  font-family: 'Geist', Arial, Helvetica, sans-serif;
 }
 
 input,
@@ -52,7 +52,7 @@ h5,
 h6,
 code {
 	overflow-wrap: anywhere;
-	font-family: 'Geist Mono', monospace;
+  font-family: 'Geist Mono', 'Courier New', Courier, monospace;
 }
 
 h1,
@@ -76,7 +76,7 @@ p:last-of-type {
 }
 
 pre, pre *, code {
-  font-family: 'Geist Mono', monospace;
+  font-family: 'Geist Mono', 'Courier New', Courier, monospace;
   line-height: 1;
 }
 
