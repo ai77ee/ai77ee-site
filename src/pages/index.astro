@@ -132,7 +132,11 @@ const { Content: Favs } = await render(favs!);
                 <div class='post-header'>
                   <h3>{post.data.title}</h3>
                   <span class='post-date'>
-                    {post.data.createdAt.toLocaleDateString()}
+                    {post.data.createdAt.toLocaleDateString('es-MX', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
                   </span>
                 </div>
                 <span>{post.data.description}</span>
@@ -162,7 +166,11 @@ const { Content: Favs } = await render(favs!);
                 <div class='post-header'>
                   <h3>{project.data.title}</h3>
                   <span class='post-date'>
-                    {project.data.date.toLocaleDateString()}
+                    {project.data.date.toLocaleDateString('es-MX', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
                   </span>
                 </div>
                 <span>{project.data.description}</span>

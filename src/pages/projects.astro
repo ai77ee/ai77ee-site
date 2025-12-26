@@ -47,7 +47,11 @@ const projects = await getCollection('projects');
                 <div class='post-header'>
                   <h3>{post.data.title}</h3>
                   <span class='post-date'>
-                    {post.data.date.toLocaleDateString()}
+                    {post.data.date.toLocaleDateString('es-MX', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
                   </span>
                 </div>
                 <span>{post.data.description}</span>

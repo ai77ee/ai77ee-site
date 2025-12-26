@@ -48,7 +48,7 @@ const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
         {
           posts
             .sort(
-              (a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime()
+              (a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime(),
             )
             .map((post) => (
               <a
@@ -59,7 +59,11 @@ const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
                 <div class='post-header'>
                   <h3>{post.data.title}</h3>
                   <span class='post-date'>
-                    {post.data.createdAt.toLocaleDateString()}
+                    {post.data.createdAt.toLocaleDateString('es-MX', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
                   </span>
                 </div>
                 <span>{post.data.description}</span>
