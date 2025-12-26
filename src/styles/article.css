@@ -118,7 +118,7 @@ ol li a.active {
   display: flex;
   flex-direction: row;
   gap: .5rem;
-  font-family: 'Ghost Mono', monospace;
+  font-family: 'Geist Mono', 'Courier New', Courier, monospace;
   background: #ffffff;
   color: #000000;
   box-decoration-break: clone;

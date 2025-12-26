@@ -24,6 +24,9 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<link rel="preload" href="/fonts/Geist.woff2" as="font" type="font/woff2" crossorigin="">
+		<link rel="preload" href="/fonts/GeistMono.woff2" as="font" type="font/woff2" crossorigin="">
+		
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -33,7 +36,7 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		{description && <meta name="description" content={description} />}
 		<meta name="theme-color" content={themeColor}>
 
-		<link rel="canonical" href={Astro.site} />
+		<link rel="canonical" href={Astro.url} />
 
 		<meta name="og:title" content={title} />
 		{description && <meta name="og:description" content={description} />}

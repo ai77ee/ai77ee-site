@@ -22,7 +22,7 @@ const path = Astro.url.pathname;
       <div id='search-results'></div>
     </li>
   </ul>
-  <button class='mobile-nav-toggle'>
+  <button class='mobile-nav-toggle' aria-label='Mobile menu trigger'>
     <Icon
       type='lucide'
       name='menu'
@@ -174,7 +174,7 @@ const path = Astro.url.pathname;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Geist Mono', monospace;
+    font-family: 'Geist Mono', 'Courier New', Courier, monospace;
     z-index: 50;
   }
 
