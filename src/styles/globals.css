@@ -193,10 +193,15 @@ main {
 }
 img[alt="The Sims 4 Configuration"] {
   width: 100%;
+  height: auto;
 }
 img[alt="The Sims 4 Game Options"] {
   width: 100%;
+  height: auto;
 }
 img[alt="The Sims 4 running on Linux Mint"] {
+  height: auto;
+}
+img[alt="The Sims 4 folder"] {
   height: auto;
 }
